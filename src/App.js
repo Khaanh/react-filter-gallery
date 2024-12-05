@@ -6,14 +6,35 @@ function App() {
 	const [data, setData] = useState([]);
 	const [collection, setCollection] = useState([]);
 
+	const handleFilter = (itemData) => {
+		const filteredPic = GalleryData.filter((item) => item.title === itemData);
+		setData(filteredPic);
+	};
+
 	useEffect(() => {
 		setData(GalleryData);
-		console.log(GalleryData);
+		setCollection([...new Set(GalleryData.map((item) => item.title))]);
 	}, []);
+
+	console.log("collection: ", collection);
 
 	return (
 		<div className="App">
 			<div className="galleryWrapper">
+				<div className="filterItem">
+					<ul>
+						<li>
+							<button onClick={() => setData(GalleryData)}>All</button>
+						</li>
+
+						{collection.map((item) => (
+							<li>
+								<button onClick={() => handleFilter(item)}>{item}</button>
+							</li>
+						))}
+					</ul>
+				</div>
+
 				<div className="galleryContainer">
 					{data.map((item) => (
 						<div className="galleryItem">
